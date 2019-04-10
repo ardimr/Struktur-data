@@ -6,49 +6,86 @@
 #include <stdbool.h>
 
 typedef struct group_t {
-    char *praktikum; //nama praktikum
-    char *rombongan; //nama rombongan
+    char *praktikum;
+    char *rombongan;
 }Group;
 
 typedef struct asprak_t {
-    char *nama; //nama asprak
-    char code; //kode asprak
-    char *praktikum[3];//tiap asprak bisa megang 3 praktikum
-    char *berhalangan[3]; //tiap asprak bisa punya 3 hari halangan
+    char *nama;
+    char code;
+    char *praktikum[3];
+    char *berhalangan[3];
 }Asprak;
 
 typedef struct lab_t {
-    char *element; //nama lab
-    Group  group; //tiap lab cuma ada 1 rombongan
-    Asprak  asprak[2]; //tiap lab ada dua asprak
+    char *element;
+    Group  group;
+    Asprak  asprak[2]; 
 }Lab;
-
 typedef struct day_t {
-    char *element; //nama hari
-    Lab lab [4]; //tiap hari ada 4 lab
+    char *element;
+    Lab lab [4];
 }Day;
 
 typedef struct week_t {
-    int element; //nama minggu salam integer
-    Day day[5]; //tiap mingu ada 5 hari
+    int element;
+    Day day[5];
 } Week;
 
 typedef struct schedule_t {
-    Week week [12]; //dalam jadwal ada 12 minggu
+    Week week [12];
 } Schedule;
 
+typedef struct temp_t {
+    int minggu;
+    char hari[6];
+    char ruangan [4];
+    char kode [6];
+    char rombongan [2];
+    char lab [4];
+} Temp;
 
 //structur data asisten
-//buat struktur data asisten sebagai database berisi data-data asisten
 typedef struct dataAsprak_t {
-   Asprak asprak [14]; //
+   Asprak asprak [14];
 } dataAsprak;
 
+typedef struct elka_t {
+    char*nama[6];
+    int size;
+    int modul;
+} ELKA;
+
+typedef struct ppmc_t {
+    char*nama[9];
+    int size;
+    int modul;
+}PPMC;
+
+typedef struct ptb_t {
+    char*nama[2];
+    int size;
+    int modul;
+}PTB;
+
+typedef struct listRombongan_t{
+    ELKA elka;
+    PPMC ppmc;
+    PTB ptb;
+}Rombongan;
+
+//struktur data Rule Checker
+typedef struct checker {
+    int minggu [2];
+    char *hari [2];
+} Checker;
 
 void loadJadwal(char * filename, Schedule * jadwal);
 void loadStatus( char * filename, Schedule * jadwal);
 void saveJadwal(char const * filename , Schedule jadwal);
 void saveStatus(char const * filename , Schedule jadwal);
+void printSchedule(Schedule jadwal);
+void printStatus(Schedule jadwal);
 void FprintSchedule(Schedule jadwal, FILE *file);
 void FprintStatus(Schedule jadwal, FILE *file);
 char* copyStr(int a, int b,char const * string);
@@ -61,51 +98,26 @@ void isPraktikumEmpty(bool *isEmpty,char buff[],int *cursor_str, int* cursor_end
 bool isStringNull( const char * string);
 void assignDataAsprak (dataAsprak *Asprak);
 void printDataAsprak ( dataAsprak Asprak);
+void autoSchedule (Schedule * jadwal);
+void printstrip();
+void TampilkanJadwal(Schedule jadwal);
+int checkarr(Schedule jadwal,int a,int b,int d);
+int ceklab(char r[]);
+int cekhari(char c[]);
+void ScheduleManual(Schedule *jadwal);
+void print_strip(int x);
+void print_asisten(Schedule jadwal);
+void loadChecker(char * filename, Checker*checker);
+Rombongan buildRombongan();
+Schedule createJadwal();
+int IsDiaSendiri(Schedule jadwal, int minggu, int nomer_hari, int nomer_lab, char pilih_asisten[]);
+int IsAvailable(Schedule jadwal, int minggu, int nomer_hari,int nomer_lab, char pilih_asisten[]);
+void assign_asisten(Schedule *jadwal);
+void assignStatus(Schedule *jadwal);
+int getIndexAsisten(char asisten, dataAsprak Asprak);
+bool isPraktikumExist ( Asprak asprak, Lab lab, Day day);
+int countAsisten(Lab lab);
+bool isAsistenSingle(Schedule jadwal);
 #endif
 
 
-/*---------------------Cara Akses------------------------*/
-/* Membuat Variabel dengan tipe bentukan Schedule
-Schedule Jadwal;
-Mengakses Minggu
-    Jadwal.week[i].element; 
-mengakses Hari
-    Jadwal.week[i].day[j].element;
-mengakses Lab
-    Jadwal.week[i].day.[j].lab[k].element; {nama lab}
-Mengakses Group praktikum
-    Jadwal.week[i].day.[j].lab[k].group.praktikum; {nama praktikum}
-    Jadwal.week[i].day.[j].lab[k].group.rombongan; {nama rombongan}
-Mengakses Asisten
-    Jadwal.week[i].day.[j].lab[k].asprak.nama;
-    Jadwal.week[i].day.[j].lab[k].asprak.code;
-    Jadwal.week[i].day.[j].lab[k].asprak.praktikum[z];
-    Jadwal.week[i].day.[j].lab[k].asprak.berhalangan[z];
-Cara assign string
-    misal mau ngisi nama praktikum dan rombongan
-    
-                char const * praktikum;
-                char const * rombongan;
-                praktikum = "EL2205";
-                romgongan = "A1"
-                //alokasi memori
-                jadwal.week[i].day[j].lab[z].group.praktikum = malloc (strlen(praktikum)+1);
-                jadwal.week[i].day[j].lab[z].group.rombongan = malloc (strlen(rombongan)+1);
-                //copy ke jadwal
-                strcpy(jadwal.week[i].day[j].lab[z].group.rombongan, rombongan);
-                strcpy(jadwal.week[i].day[j].lab[z].group.praktikum, praktikum);
-                
-/*-------------Cara akses database asisten-----------------/*
-/*berikut bukan data yang akan dicetak atau disimpan ke dalam file, namun digunakan untuk menyimpan data-data asisten
-//deklarasi
-    database Asprak;
-//akses nama
-    Asprak.asprak[i].nama;
-//akses code
-    Asprak.asprak[i].code;
-//akses paktikum yang dihandle asisten
-    Asprak.asprak[i].praktikum[j;
-//akses hari halangan asisten
-    Asprak.asprak[i].berhalangan[j];
-
-*****TIDAK PERLU ASSIGN ULANG KARENA SUDAH DI ISI PAKE PROSEDUR VOID AssignDataAsprak(dataAsprak *Asprak) *********************
