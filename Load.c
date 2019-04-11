@@ -13,15 +13,15 @@ void loadJadwal(char * filename, Schedule *jadwal){
         count++;
         int cursor_str = 0;
         int cursor_end = 0;
-        
+
         //bagian ambil data
         if ((count >2)&&(buff!= "\n")){
         //parsing minggu
             shift(buff,&cursor_str, &cursor_end, ';',';','\n');
         //salin minggu ke variabel minggu
             assignWeek(&jadwal, i_minggu, cursor_str, cursor_end, buff);
-           
-        //parsing hari      
+
+        //parsing hari
             shift(buff,&cursor_str,&cursor_end, ';',';','\n');
          //salin hari ke variabel hari
             assignDay(&jadwal, i_minggu, i_hari, cursor_str, cursor_end, buff);
@@ -40,12 +40,12 @@ void loadJadwal(char * filename, Schedule *jadwal){
                 else {
                     shift(buff,&cursor_str, &cursor_end, ';','-','-');
                     assignPraktikum(&jadwal, i_minggu, i_hari,z, cursor_str, cursor_end, buff);
-                
+
                     ///geser cursor buat dapetin rombongan
                     shift(buff,&cursor_str,&cursor_end, '-',';','\n');
                     assignRombongan(&jadwal, i_minggu, i_hari,z, cursor_str, cursor_end, buff);
                 }
-                
+
             }
             i_hari ++;
             if (i_hari >4){
@@ -77,7 +77,7 @@ void loadStatus( char * filename, Schedule * jadwal){
         //salin minggu ke variabel minggu
             assignWeek(&jadwal, i_minggu, cursor_str, cursor_end, buff);
             // printf("\nweek : %d ",jadwal->week[i_minggu].element);
-           
+
         //parsing hari
             shift(buff,&cursor_str,&cursor_end, ';',';','\n');
 
@@ -101,9 +101,9 @@ void loadStatus( char * filename, Schedule * jadwal){
                     ///geser cursor buat dapetin rombongan
                     shift(buff,&cursor_str,&cursor_end, ',',';','\n');
                     jadwal->week[i_minggu].day[i_hari].lab[z].asprak[1].code = buff[cursor_str];
-                    
+
                 }
-                
+
             }
             i_hari ++;
             if (i_hari >4){
@@ -123,13 +123,13 @@ void isPraktikumEmpty(bool *isEmpty,char buff[], int *cursor_str, int * cursor_e
         *isEmpty = true;
         *cursor_str = *cursor_str +1;
         *cursor_end =  *cursor_str;
-        
+
     }
     else {
         *isEmpty = false;
         *cursor_str = *cursor_end;
     }
-    
+
 }
 
 char* copyStr(int a, int b,char const * string){
@@ -188,7 +188,7 @@ void printSchedule(Schedule jadwal){
                 else {
                      space_p =  - strlen(jadwal.week[i].day[j].lab[k].group.rombongan);
                 }
-        
+
                 if ((space_p + space_r) >=11){
                     printf(" %*c",space_r+space_p+1,'|');
                 }
@@ -247,7 +247,7 @@ bool isStringNull(const char * string){
     {
         return false;
     }
-    
+
 }
 
 void FprintStatus(Schedule jadwal, FILE * file){
@@ -278,7 +278,7 @@ void FprintStatus(Schedule jadwal, FILE * file){
 }
 
 void FprintSchedule(Schedule jadwal, FILE *file){
-    
+
     //|Ruang Praktikum | LAB1 | LAB2 | LAB3 | LSS |
     fprintf(file,"Ruang Praktikum;;LAB1;LAB2;LAB3;LSS");
     //|Minggu | Hari |------------|------------|------------|-----------|
@@ -289,7 +289,7 @@ void FprintSchedule(Schedule jadwal, FILE *file){
             //print minggu
             fprintf(file,"%d;",jadwal.week[i].element);
             //print hari
-            
+
             fprintf(file,"%s",jadwal.week[i].day[j].element);
             //print rombongan
             for (int k = 0; k <4; k++){
@@ -297,7 +297,7 @@ void FprintSchedule(Schedule jadwal, FILE *file){
                 if ((isStringNull(jadwal.week[i].day[j].lab[k].group.praktikum))&&(isStringNull(jadwal.week[i].day[j].lab[k].group.rombongan))){
                     //cetak kosong
                     fprintf(file,";");
-                }    
+                }
                 else {
                     fprintf(file,";");
                     fprintf(file,"%s-%s",jadwal.week[i].day[j].lab[k].group.praktikum,jadwal.week[i].day[j].lab[k].group.rombongan);
@@ -371,7 +371,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -393,7 +393,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].berhalangan[i] = malloc(strlen(berhalangan)+1);
             strcpy(Asprak->asprak[index].berhalangan[i],berhalangan);
         }
-        
+
     }
 // isi nama Budi
     nama = "Budi";
@@ -421,7 +421,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -470,7 +470,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -492,7 +492,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].berhalangan[i] = malloc(strlen(berhalangan)+1);
             strcpy(Asprak->asprak[index].berhalangan[i],berhalangan);
         }
-        
+
     }
 // isi nama Doni
     nama = "Doni";
@@ -520,7 +520,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -569,7 +569,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -619,7 +619,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -641,7 +641,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].berhalangan[i] = malloc(strlen(berhalangan)+1);
             strcpy(Asprak->asprak[index].berhalangan[i],berhalangan);
         }
-    }    
+    }
 
 // isi nama Gilang
     nama = "Gilang";
@@ -669,7 +669,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -719,7 +719,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -769,7 +769,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -819,7 +819,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -869,7 +869,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -919,7 +919,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -969,7 +969,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -991,8 +991,8 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].berhalangan[i] = malloc(strlen(berhalangan)+1);
             strcpy(Asprak->asprak[index].berhalangan[i],berhalangan);
         }
-    }   
-    
+    }
+
 // isi nama Nina
     nama = "Nina";
     index = 13;
@@ -1019,7 +1019,7 @@ void assignDataAsprak (dataAsprak *Asprak){
             Asprak->asprak[index].praktikum[i] = malloc(strlen(praktikum)+1);
             strcpy(Asprak->asprak[index].praktikum[i],praktikum);
         }
-        
+
     }
 
     // isi berhalangan
@@ -1067,7 +1067,7 @@ Rombongan buildRombongan(){
         else if(i==1){
             rombElka = "A2";
             rombPpmc = "A2";
-            rombPtb = "B";        
+            rombPtb = "B";
         }
         else if (i==2){
             rombElka = "B1";
@@ -1088,7 +1088,7 @@ Rombongan buildRombongan(){
         else {
             rombPpmc = "C";
         }
-        
+
         if (i < 2){
             //assign untuk PTB
             rombongan.ptb.nama[i] = malloc(strlen(rombPtb)+1);
@@ -1102,7 +1102,7 @@ Rombongan buildRombongan(){
         }
         //assign nama untuk PPMC
         rombongan.ppmc.nama[i] = malloc (strlen(rombPpmc)+1);
-        strcpy(rombongan.ppmc.nama[i],rombPpmc); 
+        strcpy(rombongan.ppmc.nama[i],rombPpmc);
     }
     return rombongan;
 }
@@ -1115,7 +1115,7 @@ void printDataAsprak ( dataAsprak Asprak){
             if (Asprak.asprak[index].praktikum[i] != NULL){
                printf("%s ", Asprak.asprak[index].praktikum[i]);
            }
-       } 
+       }
        printf("\n");
         for (int i = 0; i < 3 ; i++){
             if (Asprak.asprak[index].berhalangan[i] != NULL){
@@ -1135,9 +1135,9 @@ void autoSchedule (Schedule * jadwal){
 
       for (int i = 0; i <12;i++){
         rombongan.elka.size = 6;
-        rombongan.ppmc.size = 7; 
+        rombongan.ppmc.size = 7;
         rombongan.ptb.size = 2;
-    
+
         for (int j = 0 ; j < 5; j++){ //hari
               for (int k = 0 ; k < 4 ; k++){ //lab
                     //isi rombongan elka
@@ -1150,36 +1150,36 @@ void autoSchedule (Schedule * jadwal){
                         strcpy(jadwal->week[i].day[j].lab[k].group.praktikum, praktikum);
                         jadwal->week[i].day[j].lab[k].group.rombongan = malloc(strlen(rombongan.elka.nama[rombongan.elka.size])+1);
                         strcpy(jadwal->week[i].day[j].lab[k].group.rombongan, rombongan.elka.nama[rombongan.elka.size]);
-                        
+
                     }
-                    
+
                     // isi rombongan pmc
                     if((rombongan.ppmc.modul>=0)&&(j>1)&&(rombongan.ppmc.size>0)){
                         //rombongan sisa berkurang
                         rombongan.ppmc.size --;
                         praktikum = "EL2208";
-            
-                        
+
+
                         if (strcmp(*(rombongan.ppmc.nama),"C")==0){ //rabu
-                            
+
                             jadwal->week[i].day[2].lab[k].group.praktikum = malloc(strlen(praktikum)+1);
                             strcpy(jadwal->week[i].day[2].lab[k].group.praktikum, praktikum);
                             jadwal->week[i].day[2].lab[k].group.rombongan = malloc(strlen(rombongan.ppmc.nama[rombongan.ppmc.size])+1);
                             strcpy(jadwal->week[i].day[2].lab[k].group.rombongan, rombongan.ppmc.nama[rombongan.ppmc.size]);
                             rombongan.ppmc.size -= 1;
 
-                        } 
-                        
+                        }
+
                         if (jadwal->week[i].day[j].lab[k].group.rombongan == NULL){
                             // printf("%d ", rombongan.ppmc.size);
-                    
+
                             jadwal->week[i].day[j].lab[k].group.praktikum = malloc(strlen(praktikum)+1);
                             strcpy(jadwal->week[i].day[j].lab[k].group.praktikum, praktikum);
                             jadwal->week[i].day[j].lab[k].group.rombongan = malloc(strlen(rombongan.ppmc.nama[rombongan.ppmc.size])+1);
                             strcpy(jadwal->week[i].day[j].lab[k].group.rombongan, rombongan.ppmc.nama[rombongan.ppmc.size]);
                         }
                     }
-                    
+
                     // isi rombongan ptb
                     if((i >9)&&(rombongan.ptb.modul>=0)&&((j==1)||(j==3))&&(k<4)&&(rombongan.ptb.size>0)&&(jadwal->week[i].day[j].lab[k].group.rombongan == NULL)){
                         rombongan.ptb.size -= 1;
@@ -1189,11 +1189,11 @@ void autoSchedule (Schedule * jadwal){
                             jadwal->week[i].day[j].lab[k].group.rombongan = malloc(strlen(rombongan.ppmc.nama[rombongan.ptb.size])+1);
                             strcpy(jadwal->week[i].day[j].lab[k].group.rombongan, rombongan.ppmc.nama[rombongan.ptb.size]);
                     }
-                    
+
                 }
-                        
+
        }
-       
+
         rombongan.elka.modul --;
         rombongan.ppmc.modul --;
         if(i>9){
@@ -1238,7 +1238,7 @@ Schedule createJadwal(){
                 }
             }
         }
-    
+
     return jadwal;
 }
 
@@ -1339,6 +1339,8 @@ void ScheduleManual(Schedule *jadwal){
     char h[7];
     char r[5];
     char *ch,*cx1,*cx2,*cx3,*cx4;
+    char junk;
+    scanf("%c",&junk);
     do{
         for(i=0;i<=3;i++){
             romb[i]='\0';
@@ -1389,7 +1391,7 @@ void ScheduleManual(Schedule *jadwal){
                 do{
                     printf("Minggu ke: ");
                     scanf("%d",&m);
-                }while(m<3 || m>12);
+                }while(m<3 || m>15);
                 while((c=getchar())!= '\n' && c!=EOF);
                 valm=0;
                 for(j=0;j<=4;j++){
@@ -1526,7 +1528,7 @@ void ScheduleManual(Schedule *jadwal){
                 do{
                     printf("Minggu ke: ");
                     scanf("%d",&m);
-                }while(m<3 || m>12);
+                }while(m<3 || m>15);
                 while((c=getchar())!= '\n' && c!=EOF);
                 valm=0;
                 for(j=0;j<=4;j++){
@@ -1626,7 +1628,7 @@ void ScheduleManual(Schedule *jadwal){
             do{
                 printf("Minggu ke: ");
                 scanf("%d",&m);
-            }while(m<3 || m>12);
+            }while(m<3 || m>15);
             while((c=getchar())!= '\n' && c!=EOF);
             valm=0;
             for(j=0;j<=4;j++){
@@ -1710,7 +1712,7 @@ void print_asisten(Schedule jadwal)
 {
      int i; int j;  int k; int x; int p; //p pencacah lab
       char karakter;
-     
+
 
     printf("|-------------------------------------------------------------------------------|\n");
     printf("|   Ruang Praktikum          | LAB1       | LAB2       | LAB3       | LSS       |\n");
@@ -1723,7 +1725,7 @@ void print_asisten(Schedule jadwal)
         for(j=0; j<5; j++)
         {
             printf("|------%d-----|", jadwal.week[i].element);
-            
+
             if(j==0)
             {
                 jadwal.week[i].day[j].element = calloc(6, sizeof(char));
@@ -1756,9 +1758,9 @@ void print_asisten(Schedule jadwal)
             int k=1;
             //jadwal.week[i].day[i].lab[k].asprak = calloc(2, sizeof(Asprak));        // untuk buat memori asprak yang tentatif(sesuai input asprak berapa)
             //jadwal.week[i].day[i].lab[k].asprak->code = calloc(2, sizeof(char));    // udh ada pas assign di print_asisten
-            
 
-            
+
+
             for(k=0; k<4; k++)                                       //untuk pencacah ada 4 lab
                 {
                     for(p=0; p<2; p++)                              // untuk pencacah berapa banyak asisten di satu lab
@@ -1773,20 +1775,20 @@ void print_asisten(Schedule jadwal)
                             printf("%c", jadwal.week[i].day[j].lab[k].asprak[p].code);
                             karakter =karakter+1;
                         }
-                    }  
-                    print_strip(karakter);                                   
+                    }
+                    print_strip(karakter);
                 }
-            
+
             printf("\n");
 
         }
     }
-   
+
 }
 
 void print_strip(int x)                                              //x adalah panjang string
 {
-    int i;                                                            
+    int i;
 
     for(i=1; i<=(7-x); i++)
     {
@@ -1814,7 +1816,7 @@ void assignStatus (Schedule *jadwal){
     printf("Isi `q` atau `Q` untuk kembali ke menu");
     do{
     //baca pertama
-        do 
+        do
         {
             printf("\nPilih Asisten (A-N): ");
             scanf("%c", &inputAsisten);
@@ -1823,11 +1825,11 @@ void assignStatus (Schedule *jadwal){
             if(((inputAsisten<65)||(inputAsisten>78))&&((inputAsisten != 'q')&&(inputAsisten!= 'Q')))
             {
                 printf("Tidak ada Asisten dengan Kode %c!", inputAsisten);
-            
+
             }
         }   while (((inputAsisten<65)||(inputAsisten>78))&&((inputAsisten != 'q')&&(inputAsisten!= 'Q')));
 
-            
+
         while((inputAsisten != 'q')&&(inputAsisten!= 'Q')){
             //baca Minggu
             do{
@@ -1839,7 +1841,7 @@ void assignStatus (Schedule *jadwal){
             } while((inputWeek>14)||(inputWeek<3));
             i_week = inputWeek - 3;
 
-                
+
             //baca hari
             do{
                 printf("Hari: ");
@@ -1865,8 +1867,8 @@ void assignStatus (Schedule *jadwal){
                     i_day = -999;
                 }
             } while(i_day<0);
-                
-                    
+
+
             //baca Ruang
             do {
                 printf("Ruang: ");
@@ -1891,8 +1893,8 @@ void assignStatus (Schedule *jadwal){
                     printf("Masukan Ruangan Salah!\n");
                 }
             } while (i_lab <0);
-                
-            
+
+
         //cari asisten di database
                 //mendapatkan index asisten di database
                 i_asisten = getIndexAsisten(inputAsisten,Asprak);
@@ -1917,18 +1919,18 @@ void assignStatus (Schedule *jadwal){
                 do {
                     printf("\nPilih Asisten (A-N): ");
                     scanf("%c", &inputAsisten);
-                    
+
                     if(((inputAsisten<65)||(inputAsisten>78))&&((inputAsisten != 'q')&&(inputAsisten!= 'Q')))
                     {
                         printf("Tidak ada Asisten dengan Kode %c!", inputAsisten);
-                    
+
                     }
                 }   while (((inputAsisten<65)||(inputAsisten>78))&&((inputAsisten != 'q')&&(inputAsisten!= 'Q')));
-            
-            } 
+
+            }
             if(isAsistenSingle(*jadwal)){
                 printf("Ada Asisten Single!\nIsi sampai tidak ada asisten single!\n");
-                
+
             }
             scanf("%c", &junk);
     }while ((isAsistenSingle(*jadwal))==true);
@@ -1953,16 +1955,16 @@ bool isPraktikumExist ( Asprak asprak, Lab lab, Day day){
     }
     else { //cari apa ada praktikum yang dihandle
         while (( i < 2)&&(isExist == false)){
-            
+
             if ((asprak.praktikum[i] != NULL)&&(strcmp(asprak.praktikum[i],lab.group.praktikum)==0)){
                 isExist = true;
-            }            
+            }
         i++;
         }
     }
-    
+
     if (isExist == false){
-        
+
     }
     else {  //praktikum exist
         //apakah berhalangan
@@ -1973,7 +1975,7 @@ bool isPraktikumExist ( Asprak asprak, Lab lab, Day day){
             }
             i++;
         }
-        
+
     }
     return isExist;
 }
@@ -2007,4 +2009,5 @@ bool isAsistenSingle (Schedule jadwal){
     }
     return isSingle;
 }
+
 

@@ -118,6 +118,7 @@ int getIndexAsisten(char asisten, dataAsprak Asprak);
 bool isPraktikumExist ( Asprak asprak, Lab lab, Day day);
 int countAsisten(Lab lab);
 bool isAsistenSingle(Schedule jadwal);
+
 #endif
 
 

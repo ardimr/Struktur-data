@@ -29,7 +29,7 @@ int input_menu = -98;
 int input_mode = -99;
 int *pInput_menu;
 int *pInput_mode;
-
+Checker checker;
 
 //Fungsi & Prosedur
 void menu(int *input);
@@ -93,7 +93,7 @@ int main(){
             }else if(input_mode==6){
                 
             }else if(input_mode==7){
-
+                
             }else if(input_mode==8){
                 //save file bergantung input dari menu
                  if (input_menu == 1){
